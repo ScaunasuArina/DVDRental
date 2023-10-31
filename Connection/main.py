@@ -1,13 +1,11 @@
 from flask import Flask, request, json
-from Database.Film import Film
-
-film = Film()
+from Database.Film import getFilm, getAllFilms, getActorsFromFilm, getOldestMovie, getLongestMovie
 
 app = Flask(__name__)
 
 @app.route('/films', methods=['GET'])
 def get_all_films():
-    films = film.get_all_films()
+    films = getAllFilms()
     response = app.response_class(
         response=json.dumps(films),
         status=200,
@@ -23,11 +21,11 @@ def get_all_films():
 #     film_info = get_film(title)
 #     return film_info
 
-# ex. API call: http://127.0.0.1:5000/films/Desert Poseidon
+# ex. API call: http://127.0.0.1:7777/films/Desert Poseidon
 # get film by using path parameters
 @app.route('/films/<film_name>', methods=['GET'])
 def get_film(film_name):
-    film_info = film.get_film(film_name)
+    film_info = getFilm(film_name)
     response = app.response_class(
         response=json.dumps(film_info),
         status=200,
@@ -35,13 +33,31 @@ def get_film(film_name):
     )
     return response
 
-# ex. API call: http://127.0.0.1:5000/films/actors?title=Desert Poseidon
+# ex. API call: http://127.0.0.1:7777/films/Desert Poseidon/actors
 # get actors playing in a movie with query parameters
-@app.route('/films/actors', methods=['GET'])
-def get_actors_from_film():
-    # get query parameters
-    title = request.args.get('title')
-    film_info = film.get_actors_from_film(title)
+@app.route('/films/<film_name>/actors', methods=['GET'])
+def get_actors_from_film(film_name):
+    actors = getActorsFromFilm(film_name)
+    response = app.response_class(
+        response=json.dumps(actors),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route('/films/oldest', methods=['GET'])
+def get_oldest_film():
+    oldest_movie = getOldestMovie()
+    response = app.response_class(
+        response=json.dumps(oldest_movie),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route('/films/longest_film', methods=['GET'])
+def get_longest_film():
+    film_info = getLongestMovie()
     response = app.response_class(
         response=json.dumps(film_info),
         status=200,
