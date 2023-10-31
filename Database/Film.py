@@ -252,21 +252,6 @@ getOldestMovie = film.get_oldest_movie
 getLongestMovie = film.get_longest_movie
 
 
-# all_actors = film.get_actors_from_film('Zhivago Core')
-# for actor in all_actors:
-#     print(actor)
-
-# all_films = film.get_all_films()
-# print(all_films)
-
-# all_films = film.get_film('Affair Prejudice')
-# print(all_films)
-
-# all_films = film.get_oldest_movie()
-# print(all_films)
-
-# film.add_new_movie()
-
 # film_info={
 #     'title': 'The Hunger Games'
 # }

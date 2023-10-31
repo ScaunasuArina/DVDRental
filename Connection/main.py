@@ -1,4 +1,4 @@
-from flask import Flask, request, json
+from flask import Flask, json
 from Database.Film import getFilm, getAllFilms, getActorsFromFilm, getOldestMovie, getLongestMovie
 
 app = Flask(__name__)
