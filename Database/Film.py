@@ -1,16 +1,23 @@
 import psycopg2 as pg
+import logging as log
 from response_util import format_response
 from Database.database_error_messages import database_error_msg
 import datetime
 
 db = 'dvdrental'
 user = 'postgres'
-password = 'admin'
+password = ''
 
+log.basicConfig(level=log.DEBUG,
+                handlers=[
+                    log.FileHandler("logging.log"),
+                    log.StreamHandler()
+                ])
 
 class Film:
     def check_insert_film_params(self, kwargs):
         if len(kwargs) == 0:
+            log.debug('check_insert_film_params: No arguments were given!')
             raise AttributeError('No arguments were given!')
         # # check required attributes 'title' and 'language_id'
         # if 'title' not in kwargs or 'language_id' not in kwargs:
@@ -62,7 +69,7 @@ class Film:
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
-            print(database_error_msg._NO_DATABASE_CONNECTION)
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
             return [database_error_msg._NO_DATABASE_CONNECTION]
         with conn.cursor() as cursor:
             cursor.execute(query)
@@ -101,7 +108,7 @@ class Film:
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
-            print(database_error_msg._NO_DATABASE_CONNECTION)
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
             return [database_error_msg._NO_DATABASE_CONNECTION]
         with conn.cursor() as cursor:
             cursor.execute(query)
@@ -136,7 +143,7 @@ class Film:
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
-            print(database_error_msg._NO_DATABASE_CONNECTION)
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
             return [database_error_msg._NO_DATABASE_CONNECTION]
         with conn.cursor() as cursor:
             cursor.execute(query)
@@ -169,7 +176,7 @@ class Film:
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
-            print(database_error_msg._NO_DATABASE_CONNECTION)
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
             return database_error_msg._NO_DATABASE_CONNECTION
         with conn.cursor() as cursor:
             cursor.execute(query)
@@ -202,7 +209,7 @@ class Film:
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
-            print(database_error_msg._NO_DATABASE_CONNECTION)
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
             return database_error_msg._NO_DATABASE_CONNECTION
         with conn.cursor() as cursor:
             cursor.execute(query)
@@ -237,7 +244,7 @@ class Film:
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
-            print(database_error_msg._NO_DATABASE_CONNECTION)
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
             return database_error_msg._NO_DATABASE_CONNECTION
 
         # check given params:
