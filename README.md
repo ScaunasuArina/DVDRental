@@ -6,7 +6,7 @@ Logging file is located in ./Connection
 ### Generating cover report
 For coverage report we use "coverage" library.
 
-** Installation :*
+* Installation : *
 ```
     >> python3 -m pip install coverage
 ```
