@@ -1,4 +1,4 @@
-# DVD Rental project
+# Film Informational project
 
 ### Logging
 Logging file is located in ./Connection
