@@ -6,17 +6,17 @@ Logging file is located in ./Connection
 ### Generating cover report
 For coverage report we use "coverage" library.
 
-** Installation :*
+* Installation : 
 ```
     >> python3 -m pip install coverage
 ```
 
-** Run tests: **
+* Run tests: 
 ```
     >> python -m coverage run -m unittest unit_testing_database.py
 ```
 
-** Generate report: **
+* Generate report:
 ```
     >> python -m coverage report
     Name                                  Stmts   Miss  Cover
@@ -29,7 +29,7 @@ For coverage report we use "coverage" library.
     TOTAL                                   186     26    86%
 ```
 
-** Generate report in HTML format (found in ./htmlcov/): **
+* Generate report in HTML format (found in ./htmlcov/):
 ```
     >> python -m coverage html
     Wrote HTML report to htmlcov\index.html
