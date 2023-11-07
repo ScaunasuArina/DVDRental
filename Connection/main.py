@@ -1,5 +1,6 @@
 from flask import Flask, json
 from Database.Film import getFilm, getAllFilms, getActorsFromFilm, getOldestMovie, getLongestMovie
+from Database.Film import addNewMovie, removeMovie
 from Database.database_error_messages import database_error_msg
 
 app = Flask(__name__)

@@ -6,7 +6,7 @@ import datetime
 
 db = 'dvdrental'
 user = 'postgres'
-password = ''
+password = 'admin'
 
 log.basicConfig(level=log.DEBUG,
                 handlers=[
@@ -19,7 +19,7 @@ class Film:
         if len(kwargs) == 0:
             log.debug('check_insert_film_params: No arguments were given!')
             raise AttributeError('No arguments were given!')
-        # # check required attributes 'title' and 'language_id'
+        # TODO: check required attributes 'title' and 'language_id'
         # if 'title' not in kwargs or 'language_id' not in kwargs:
         #     raise AttributeError('title and language_id are required attributes!')
         
@@ -224,13 +224,14 @@ class Film:
         return response
 
     def add_new_movie(self, **kwargs):
-        '''
+        # TODO: under implementation
+        """
         Add a new movie to database.
         :param title: Title of the film. Required information
         :param description: Description of the movie.
-        :param release_year: Realease year of the film
+        :param release_year: Release year of the film
         :param language_id: Language of the movie. Required information
-        :param rental_duration: Durantion of the rental
+        :param rental_duration: Duration of the rental
         :param rental_rate: Rental cost
         :param length: Duration of the movie
         :param replacement_cost: Cost of replacing the movie in case of lost/deterioration
@@ -238,9 +239,8 @@ class Film:
         :param last_update: Date of the last update
         :param special_features: Extra features of the movie
         :return:
-        '''
-
-        print(f"kwargs:{kwargs}")
+        """
+        log.debug(f"kwargs:{kwargs}")
         try:
             conn = pg.connect(database=db, user=user, password=password)
         except pg.OperationalError:
@@ -252,10 +252,30 @@ class Film:
         # create the query
         query = self.create_insert_film_query(kwargs)
 
+        # TODO: need to check for errors
         with conn.cursor() as cursor:
             cursor.execute(query)
         return 1
 
+    def remove_movie(self, film_name):
+        # TODO: under implementation
+        """
+        Remove a movie from database.
+        :param film_name: Title of the movie.
+        :return:
+        """
+        query = "DELETE FROM film WHERE title=" + "'" + film_name + "'";
+        try:
+            conn = pg.connect(database=db, user=user, password=password)
+        except pg.OperationalError:
+            log.debug(f"get_all_films:{database_error_msg._NO_DATABASE_CONNECTION}")
+            return database_error_msg._NO_DATABASE_CONNECTION
+
+        # TODO: need to check for errors
+        with conn.cursor() as cursor:
+            cursor.execute(query)
+
+        return 1
 
 film = Film()
 getFilm = film.get_film
@@ -263,7 +283,8 @@ getAllFilms = film.get_all_films
 getActorsFromFilm = film.get_actors_from_film
 getOldestMovie = film.get_oldest_movie
 getLongestMovie = film.get_longest_movie
-
+addNewMovie = film.add_new_movie
+removeMovie = film.remove_movie
 
 # film_info={
 #     'title': 'The Hunger Games'
