@@ -1,5 +1,6 @@
 import psycopg2 as pg
 from response_util import format_response
+from Database.database_error_messages import database_error_msg
 import datetime
 
 db = 'dvdrental'
@@ -36,8 +37,6 @@ class Film:
         val_text = val_text[:-1]
 
         query = "INSERT INTO film("+ col_text + ") " + "VALUES(" + val_text + ");"
-        print(f"query: {query}")
-
         return query
 
     def get_all_films(self):
@@ -62,8 +61,9 @@ class Film:
         # connect to database and send query
         try:
             conn = pg.connect(database=db, user=user, password=password)
-        except:
-            print("Unable to connect to database!")
+        except pg.OperationalError:
+            print(database_error_msg._NO_DATABASE_CONNECTION)
+            return [database_error_msg._NO_DATABASE_CONNECTION]
         with conn.cursor() as cursor:
             cursor.execute(query)
             all_rows = cursor.fetchall()
@@ -100,8 +100,9 @@ class Film:
         # connect to database and send query
         try:
             conn = pg.connect(database=db, user=user, password=password)
-        except:
-            print("Unable to connect to database!")
+        except pg.OperationalError:
+            print(database_error_msg._NO_DATABASE_CONNECTION)
+            return [database_error_msg._NO_DATABASE_CONNECTION]
         with conn.cursor() as cursor:
             cursor.execute(query)
             film_row = cursor.fetchall()
@@ -134,8 +135,9 @@ class Film:
         # connect to database and send query
         try:
             conn = pg.connect(database=db, user=user, password=password)
-        except:
-            print("Unable to connect to database!")
+        except pg.OperationalError:
+            print(database_error_msg._NO_DATABASE_CONNECTION)
+            return [database_error_msg._NO_DATABASE_CONNECTION]
         with conn.cursor() as cursor:
             cursor.execute(query)
             all_rows = cursor.fetchall()
@@ -166,8 +168,9 @@ class Film:
         # connect to database and send query
         try:
             conn = pg.connect(database=db, user=user, password=password)
-        except:
-            print("Unable to connect to database!")
+        except pg.OperationalError:
+            print(database_error_msg._NO_DATABASE_CONNECTION)
+            return database_error_msg._NO_DATABASE_CONNECTION
         with conn.cursor() as cursor:
             cursor.execute(query)
             oldest_movie = cursor.fetchone()
@@ -198,8 +201,9 @@ class Film:
         # connect to database and send query
         try:
             conn = pg.connect(database=db, user=user, password=password)
-        except:
-            print("Unable to connect to database!")
+        except pg.OperationalError:
+            print(database_error_msg._NO_DATABASE_CONNECTION)
+            return database_error_msg._NO_DATABASE_CONNECTION
         with conn.cursor() as cursor:
             cursor.execute(query)
             oldest_movie = cursor.fetchone()
@@ -232,8 +236,9 @@ class Film:
         print(f"kwargs:{kwargs}")
         try:
             conn = pg.connect(database=db, user=user, password=password)
-        except:
-            print("Unable to connect to database!")
+        except pg.OperationalError:
+            print(database_error_msg._NO_DATABASE_CONNECTION)
+            return database_error_msg._NO_DATABASE_CONNECTION
 
         # check given params:
         self.check_insert_film_params(kwargs)
@@ -242,6 +247,7 @@ class Film:
 
         with conn.cursor() as cursor:
             cursor.execute(query)
+        return 1
 
 
 film = Film()
@@ -268,7 +274,8 @@ getLongestMovie = film.get_longest_movie
 #     'language_id': 1,
 #     'length': 120
 # }
-# film.add_new_movie(**film_info)
+# # film.add_new_movie(**film_info)
+# print(film.create_insert_film_query(film_info))
 
 # dt = datetime.datetime.now()
 # film_info={
@@ -280,3 +287,7 @@ getLongestMovie = film.get_longest_movie
 # film.add_new_movie(**film_info)
 
 # print(film.get_film(film_info['title']))
+
+# Raises psycopg2.OperationalError
+# conn = pg.connect(database=db, user=user, password=password)
+
