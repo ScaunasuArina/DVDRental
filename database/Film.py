@@ -1,7 +1,7 @@
 import psycopg2 as pg
 import logging as log
 from response_util import format_response
-from Database.database_error_messages import database_error_msg
+from database.database_error_messages import database_error_msg
 import datetime
 
 db = 'dvdrental'

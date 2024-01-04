@@ -13,7 +13,7 @@ For coverage report we use "coverage" library.
 
 * Run tests: 
 ```
-    >> python -m coverage run -m unittest unit_testing_database.py
+    >> python -m coverage run -m unittest tests/unit_testing_database.py
 ```
 
 * Generate report:

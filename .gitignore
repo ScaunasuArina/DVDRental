@@ -1,5 +1,5 @@
 /.idea/
 /__pycache__/
-/Database/__pycache__/
-/Connection/logging.log
+/database/__pycache__/
+/connection/logging.log
 .coverage
