@@ -1,11 +1,30 @@
+from user_credentials import users
 from flask import Flask, json
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import check_password_hash
+
 from database.Film import getFilm, getAllFilms, getActorsFromFilm, getOldestMovie, getLongestMovie
 from database.Film import addNewMovie, removeMovie
 from database.database_error_messages import database_error_msg
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and check_password_hash(users[username], password):
+        return username
+
+
+@app.route('/')
+@auth.login_required
+def index():
+    return "Hello, {}!".format(auth.current_user())
+
 
 @app.route('/films', methods=['GET'])
+@auth.login_required
 def get_all_films():
     films = getAllFilms()
     if database_error_msg._NO_DATABASE_CONNECTION in films:
@@ -34,6 +53,7 @@ def get_all_films():
 # ex. API call: http://127.0.0.1:7777/films/Desert Poseidon
 # get film by using path parameters
 @app.route('/films/<film_name>', methods=['GET'])
+@auth.login_required
 def get_film(film_name):
     film_info = getFilm(film_name)
     if database_error_msg._NO_DATABASE_CONNECTION in film_info:
@@ -54,6 +74,7 @@ def get_film(film_name):
 # ex. API call: http://127.0.0.1:7777/films/Desert Poseidon/actors
 # get actors playing in a movie with query parameters
 @app.route('/films/<film_name>/actors', methods=['GET'])
+@auth.login_required
 def get_actors_from_film(film_name):
     actors = getActorsFromFilm(film_name)
     if database_error_msg._NO_DATABASE_CONNECTION in actors:
@@ -72,6 +93,7 @@ def get_actors_from_film(film_name):
 
 
 @app.route('/films/oldest', methods=['GET'])
+@auth.login_required
 def get_oldest_film():
     oldest_movie = getOldestMovie()
     if database_error_msg._NO_DATABASE_CONNECTION in oldest_movie:
@@ -90,6 +112,7 @@ def get_oldest_film():
 
 
 @app.route('/films/longest_film', methods=['GET'])
+@auth.login_required
 def get_longest_film():
     film_info = getLongestMovie()
     if database_error_msg._NO_DATABASE_CONNECTION in film_info:
