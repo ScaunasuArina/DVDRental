@@ -1,6 +1,9 @@
-from unittest import TestCase
+from unittest import TestCase, mock
+import psycopg2 as pg
 from Database.Film import Film
 import coverage
+
+from Database.database_error_messages import database_error_msg
 
 film = Film()
 class Test(TestCase):

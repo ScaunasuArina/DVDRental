@@ -5,15 +5,16 @@ from Database.database_error_messages import database_error_msg
 
 app = Flask(__name__)
 
+
 @app.route('/films', methods=['GET'])
 def get_all_films():
     films = getAllFilms()
     if database_error_msg._NO_DATABASE_CONNECTION in films:
         response = app.response_class(
-            response = database_error_msg._NO_DATABASE_CONNECTION,
-            status = 500,
-            mimetype = 'application/json'
-    )
+            response=database_error_msg._NO_DATABASE_CONNECTION,
+            status=500,
+            mimetype='application/json'
+        )
     else:
         response = app.response_class(
             response=json.dumps(films),
@@ -21,6 +22,7 @@ def get_all_films():
             mimetype='application/json'
         )
     return response
+
 
 # this function is not called because we use the same URL
 # we can add query params in the above function - they are optional
@@ -37,10 +39,10 @@ def get_film(film_name):
     film_info = getFilm(film_name)
     if database_error_msg._NO_DATABASE_CONNECTION in film_info:
         response = app.response_class(
-            response = database_error_msg._NO_DATABASE_CONNECTION,
-            status = 500,
-            mimetype = 'application/json'
-    )
+            response=database_error_msg._NO_DATABASE_CONNECTION,
+            status=500,
+            mimetype='application/json'
+        )
     else:
         response = app.response_class(
             response=json.dumps(film_info),
@@ -48,6 +50,7 @@ def get_film(film_name):
             mimetype='application/json'
         )
     return response
+
 
 # ex. API call: http://127.0.0.1:7777/films/Desert Poseidon/actors
 # get actors playing in a movie with query parameters
@@ -56,10 +59,10 @@ def get_actors_from_film(film_name):
     actors = getActorsFromFilm(film_name)
     if database_error_msg._NO_DATABASE_CONNECTION in actors:
         response = app.response_class(
-            response = database_error_msg._NO_DATABASE_CONNECTION,
-            status = 500,
-            mimetype = 'application/json'
-    )
+            response=database_error_msg._NO_DATABASE_CONNECTION,
+            status=500,
+            mimetype='application/json'
+        )
     else:
         response = app.response_class(
             response=json.dumps(actors),
@@ -68,15 +71,16 @@ def get_actors_from_film(film_name):
         )
     return response
 
+
 @app.route('/films/oldest', methods=['GET'])
 def get_oldest_film():
     oldest_movie = getOldestMovie()
     if database_error_msg._NO_DATABASE_CONNECTION in oldest_movie:
         response = app.response_class(
-            response = database_error_msg._NO_DATABASE_CONNECTION,
-            status = 500,
-            mimetype = 'application/json'
-    )
+            response=database_error_msg._NO_DATABASE_CONNECTION,
+            status=500,
+            mimetype='application/json'
+        )
     else:
         response = app.response_class(
             response=json.dumps(oldest_movie),
@@ -85,15 +89,16 @@ def get_oldest_film():
         )
     return response
 
+
 @app.route('/films/longest_film', methods=['GET'])
 def get_longest_film():
     film_info = getLongestMovie()
     if database_error_msg._NO_DATABASE_CONNECTION in film_info:
         response = app.response_class(
-            response = database_error_msg._NO_DATABASE_CONNECTION,
-            status = 500,
-            mimetype = 'application/json'
-    )
+            response=database_error_msg._NO_DATABASE_CONNECTION,
+            status=500,
+            mimetype='application/json'
+        )
     else:
         response = app.response_class(
             response=json.dumps(film_info),
@@ -102,6 +107,6 @@ def get_longest_film():
         )
     return response
 
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port='7777')
-
